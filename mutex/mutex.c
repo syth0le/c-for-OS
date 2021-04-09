@@ -1,3 +1,12 @@
+/******************************************************************************
+     * File: mutex.c
+     * Description: none
+     * Created: 09 апреля 2021
+     * Copyright: (C) Daniil Cherednichenko
+     * Author: syth0le
+     * Email: chdan565@gmail.com 
+******************************************************************************/
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
