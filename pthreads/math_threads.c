@@ -1,11 +1,11 @@
 /******************************************************************************
-     * File: pthreads.c
+     * File: math_threads.c
      * Description: none
      * Created: 09 апреля 2021
      * Copyright: (C) Daniil Cherednichenko
      * Author: syth0le
      * Email: chdan565@gmail.com
-     * description: 
+     * description:
 ******************************************************************************/
 
 #include <stdlib.h>
@@ -17,12 +17,13 @@
 #include <string.h>
 #include <pthread.h>
 
+int result = 0;
+
 
 void *threadHandler(void *ptr) {
-    for (int j = 0; j < 10; ++j) {
-        printf("привет, я процесс №%d\n", (int)syscall(SYS_gettid));
+    for (int j = 0; j < 1000000; ++j) {
+        result++;
 }
-    printf("\n\n");
     pthread_exit(NULL);
     return NULL;
 }
@@ -31,13 +32,18 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 
-    int CHILDREN_AMOUNT = atoi(argv[1]);
-    pid_t pids[CHILDREN_AMOUNT];
+    int THREADS = atoi(argv[1]);
+    pthread_t threads[THREADS];
 
-    for (int i = 0; i < CHILDREN_AMOUNT; ++i) {
-        pthread_t thread_id;
-        pthread_create(&thread_id, NULL, threadHandler, NULL);
-        pthread_join(thread_id, NULL);
+    for (int i = 0; i < THREADS; ++i) {
+        pthread_create(&threads[i], NULL, threadHandler, NULL);
     }
+
+    for (int i = 0; i < THREADS; ++i) {
+        pthread_join(threads[i], NULL);
+    }
+
+    printf("Result is %d\n", result);
     return 0;
 }
+
